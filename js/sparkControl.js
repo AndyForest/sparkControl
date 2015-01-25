@@ -21,7 +21,7 @@ sparkControl.prototype.callFunction = function(functionName, functionArgs, callb
 	// https://api.spark.io/v1/devices/54ff6e066667515125491467/ringDoorBell
 
 	if ($.isFunction(callbackFunction) == 0) {
-		logTestMessage("callFunction invalid function");
+		this.logTestMessage("callFunction - no valid function passed");
 		callbackFunction = function() {}
 	}
 
@@ -115,10 +115,10 @@ sparkControl.prototype.logTestMessage = function(message) {
 
 function sparkControlTestMessage (message) {
 	console.log(message);
-	messageWindow = $("#SparkCoreMessageWindow");
-	if (messageWindow.length) {
-		// Message window exists, output message
-		messageWindow.text(message);
+	messageWindow = document.getElementById("SparkCoreMessageWindow")
+	if (messageWindow) {
+	  // Message window exists, output message
+      document.getElementById("SparkCoreMessageWindow").value = message;
 	}
 }
 
