@@ -21,6 +21,7 @@ sparkControl.prototype.callFunction = function(functionName, functionArgs, callb
 	// https://api.spark.io/v1/devices/54ff6e066667515125491467/ringDoorBell
 
 	if ($.isFunction(callbackFunction) == 0) {
+		logTestMessage("callFunction invalid function");
 		callbackFunction = function() {}
 	}
 
@@ -36,7 +37,7 @@ sparkControl.prototype.callFunction = function(functionName, functionArgs, callb
 			success: callbackFunction,
 			dataType: "json",
 			dataFilter: function(data, type) {
-				console.log(data);
+				sparkControlTestMessage(data);
 				return $.parseJSON(data).return_value;
 			}
 		});
@@ -67,21 +68,37 @@ sparkControl.prototype.getVariable = function(variableName, callbackFunction) {
 	if ($.isFunction(callbackFunction) == 0) {
 		callbackFunction = function() {}
 	}
+	
+	if (this.testMode) {
+		
+		$.ajax({
+			url: "https://api.spark.io/v1/devices/" + this.coreid + "/" + variableName + "/?access_token=" + this.access_token,
+			success: callbackFunction,
+			dataType: "json",
+			dataFilter: function(data, type) {
+				sparkControlTestMessage(data);
+				return $.parseJSON(data).result;
+			}
+		});
+	
+	} else {
+		$.ajax({
+			url: "https://api.spark.io/v1/devices/" + this.coreid + "/" + variableName + "/?access_token=" + this.access_token,
+			success: callbackFunction,
+			dataType: "json",
+			dataFilter: function(data, type) {
+				return $.parseJSON(data).result;
+			}
+		});
 
-	$.ajax({
-		url: "https://api.spark.io/v1/devices/" + this.coreid + "/" + variableName + "/?access_token=" + this.access_token,
-		success: callbackFunction,
-		dataType: "json",
-		dataFilter: function(data, type) {
-			return $.parseJSON(data).result;
-		}
-	});
+	}
 
 }
 
 sparkControl.prototype.subscribe = function(sparkEventName, callbackFunction) {
 	eventSource.addEventListener(sparkEventName, function(eventResponse) {
 		var parsedData = JSON.parse(eventResponse.data).data;
+		this.logTestMessage(eventResponse.data);
 		//console.log(parsedData);
 		if ($.isFunction(callbackFunction) == 1) {
 			callbackFunction(parsedData);
@@ -89,6 +106,22 @@ sparkControl.prototype.subscribe = function(sparkEventName, callbackFunction) {
 
 	});
 }
+
+sparkControl.prototype.logTestMessage = function(message) {
+	if (this.testMode) {
+		sparkControlTestMessage(message);
+	}
+}
+
+function sparkControlTestMessage (message) {
+	console.log(message);
+	messageWindow = $("#SparkCoreMessageWindow");
+	if (messageWindow.length) {
+		// Message window exists, output message
+		messageWindow.text(message);
+	}
+}
+
 
 /* Doesn't work. Possibly need to call an existing function instead of creating a new one on the fly like this.
     
