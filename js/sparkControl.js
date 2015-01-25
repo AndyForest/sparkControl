@@ -2,6 +2,9 @@
 var sparkControl = function(coreid, access_token) {
 	this.coreid = coreid;
 	this.access_token = access_token;
+	
+	// Set testMode = true to log communications to the javascript console
+	this.testMode = false;
 
 	// TODO: only add this EventSource when it's needed
 	this.eventSource = new EventSource("https://api.spark.io/v1/devices/" + this.coreid + "/events/?access_token=" + this.access_token);
@@ -21,19 +24,40 @@ sparkControl.prototype.callFunction = function(functionName, functionArgs, callb
 		callbackFunction = function() {}
 	}
 
-	$.ajax({
-		type: "POST",
-		url: "https://api.spark.io/v1/devices/" + this.coreid + "/" + functionName,
-		data: {
-			access_token: this.access_token,
-			arg: functionArgs
-		},
-		success: callbackFunction,
-		dataType: "json",
-		dataFilter: function(data, type) {
-			return $.parseJSON(data).return_value;
-		}
-	});
+	if (this.testMode) {
+
+		$.ajax({
+			type: "POST",
+			url: "https://api.spark.io/v1/devices/" + this.coreid + "/" + functionName,
+			data: {
+				access_token: this.access_token,
+				arg: functionArgs
+			},
+			success: callbackFunction,
+			dataType: "json",
+			dataFilter: function(data, type) {
+				console.log(data);
+				return $.parseJSON(data).return_value;
+			}
+		});
+
+	} else {
+
+		$.ajax({
+			type: "POST",
+			url: "https://api.spark.io/v1/devices/" + this.coreid + "/" + functionName,
+			data: {
+				access_token: this.access_token,
+				arg: functionArgs
+			},
+			success: callbackFunction,
+			dataType: "json",
+			dataFilter: function(data, type) {
+				return $.parseJSON(data).return_value;
+			}
+		});
+
+	}
 }
 
 sparkControl.prototype.getVariable = function(variableName, callbackFunction) {
