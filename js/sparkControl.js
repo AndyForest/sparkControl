@@ -118,7 +118,7 @@ function sparkControlTestMessage (message) {
 	messageWindow = document.getElementById("SparkCoreMessageWindow");
 	if (messageWindow) {
 		// Message window exists, output message
-		messageWindow.value = message;
+		
 	}
 
 }
