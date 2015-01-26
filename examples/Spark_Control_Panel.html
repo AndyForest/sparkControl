@@ -5,14 +5,70 @@
     <title>Spark Control Panel</title>
     
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="https://andyforest.github.io/sparkControl/js/sparkControl.js"></script>
-    <!-- <script src="../js/sparkControl.js"></script> -->
+    <!-- <script src="https://andyforest.github.io/sparkControl/js/sparkControl.js"></script> -->
+    <script src="../js/sparkControl.js"></script>
     
     <script type="text/javascript">
 
-      var coreid = "54ff6e066667515125491467";
-      var access_token = "4cae4246789a91b7e9caf0623581756a75671faa";
-      var sparkCore = new sparkControl(coreid, access_token);
+		var sparkCore;
+		
+		function initSpark(force) {
+			if (sparkCore == null || force) {
+				$("#SparkCoreMessageWindow").text("Initializing connection");
+				
+				var coreid = $( "#coreid" ).val();
+				var access_token = $( "#access_token" ).val();
+				sparkCore = new sparkControl(coreid, access_token);
+				sparkCore.testMode = true;
+				
+			}
+		}
+		
+		function callSparkFunction(id) {
+			initSpark();
+			sparkCore.callFunction($("#function" + id).val(), $("#parameter" + id).val(), updateFunctionResult);
+		}
+		
+		function updateFunctionResult (message){
+			
+			$("#SparkCoreFunctionMessageWindow").text(message);
+			var d = new Date();
+			$("#SparkCoreFunctionTimeWindow").text(d);
+			
+			updateSparkCoreMessageWindow();
+		}
+		
+		function updateSparkCoreMessageWindow () {
+			initSpark();
+			$("#SparkCoreMessageWindow").text(sparkCore.lastMessageReceived);
+		}
+		
+		function getSparkVariable(id) {
+			initSpark();
+			sparkCore.getVariable($("#variable" + id).val(), updateVariableResult);
+		}
+		
+		function updateVariableResult (message) {
+			$("#SparkCoreVariableMessageWindow").text(message);
+			var d = new Date();
+			$("#SparkCoreVariableTimeWindow").text(d);
+			
+			updateSparkCoreMessageWindow();
+		}
+		
+		function subscribeSparkEvent (id) {
+			initSpark();
+			console.log("Subscribing to: " + $("#subscribe" + id).val());
+			sparkCore.subscribe($("#subscribe" + id).val(), updateSubscribeResult);
+		}
+		
+		function updateSubscribeResult (message) {
+			$("#SparkCoreSubscribeMessageWindow").text(message);
+			var d = new Date();
+			$("#SparkCoreSubscribeTimeWindow").text(d);
+			
+			updateSparkCoreMessageWindow();
+		}
       
     </script>
     
@@ -39,19 +95,191 @@
         <h3 class="panel-title">Spark Core Information</h3>
       </div>
       <div class="panel-body">
-      	Go to <a href="https://www.spark.io/build">https://www.spark.io/build</a> to get the Core ID of the Spark Core you want to access and your Access Token.
-        <form class="form-inline" role="form" id="SparkInfo">
-       	<div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">Core ID</span>
-          <input type="text" class="form-control" placeholder="Your Core ID" aria-describedby="basic-addon1" id="coreid">
+      	
+        <div class="row">
+			<form class="form-inline" role="form" id="SparkInfo" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Core ID</span>
+                  <input type="text" class="form-control" placeholder="Your Core ID" aria-describedby="basic-addon1" id="coreid" value="54ff6e066667515125491467" size=28>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Access Token</span>
+                  <input type="text" class="form-control" placeholder="Your Access Token" aria-describedby="basic-addon1" id="access_token" value="4cae4246789a91b7e9caf0623581756a75671faa" size=44>
+                </div>
+           		<button class="btn btn-default" onClick="initSpark(true);">Connect to Spark Core</button>
+            </form>
+    	</div>
+     
+      </div>
+    </div>
+    
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Call Spark Function</h3>
+      </div>
+      <div class="panel-body">
+      	<div class="row">
+        <div class="col-md-6">
+            <form class="form-inline" role="form" id="SparkFunctions1" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Function Name</span>
+                  <input type="text" class="form-control" placeholder="Function Name" aria-describedby="basic-addon1" id="function1" value="ringDoorBell">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Parameter</span>
+                  <input type="text" class="form-control" placeholder="Parameter" aria-describedby="basic-addon1" id="parameter1" value="Short">
+                </div>
+                <button class="btn btn-default" onClick="callSparkFunction(1);">Send</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkFunctions2" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Function Name</span>
+                  <input type="text" class="form-control" placeholder="Function Name" aria-describedby="basic-addon1" id="function2">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Parameter</span>
+                  <input type="text" class="form-control" placeholder="Parameter" aria-describedby="basic-addon1" id="parameter2">
+                </div>
+                <button class="btn btn-default" onClick="callSparkFunction(2);">Send</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkFunctions3" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Function Name</span>
+                  <input type="text" class="form-control" placeholder="Function Name" aria-describedby="basic-addon1" id="function3">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Parameter</span>
+                  <input type="text" class="form-control" placeholder="Parameter" aria-describedby="basic-addon1" id="parameter3">
+                </div>
+                <button class="btn btn-default" onClick="callSparkFunction(3);">Send</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkFunctions4" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Function Name</span>
+                  <input type="text" class="form-control" placeholder="Function Name" aria-describedby="basic-addon1" id="function4">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Parameter</span>
+                  <input type="text" class="form-control" placeholder="Parameter" aria-describedby="basic-addon1" id="parameter4">
+                </div>
+                <button class="btn btn-default" onClick="callSparkFunction(4);">Send</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkFunctions5" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Function Name</span>
+                  <input type="text" class="form-control" placeholder="Function Name" aria-describedby="basic-addon1" id="function5">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Parameter</span>
+                  <input type="text" class="form-control" placeholder="Parameter" aria-describedby="basic-addon1" id="parameter5">
+                </div>
+                <button class="btn btn-default" onClick="callSparkFunction(5);">Send</button>
+            </form>
         </div>
-  		<div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">Access Token</span>
-          <input type="text" class="form-control" placeholder="Your Access Token" aria-describedby="basic-addon1" id="access_token">
+        <div class="col-md-4">
+        	<p>Function return value
+        	<pre id="SparkCoreFunctionMessageWindow">
+                
+            </pre>
+        	<p>Timestamp
+        	<pre id="SparkCoreFunctionTimeWindow">
+                
+            </pre>
+            <button class="btn btn-default" onClick="updateFunctionResult('');">Clear</button>
+            
         </div>
-   
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+      </div>
+        
+      </div>
+    </div>
+    
+     <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Get Spark Variable</h3>
+      </div>
+      <div class="panel-body">
+      	<div class="row">
+        <div class="col-md-6">
+            <form class="form-inline" role="form" id="SparkVariables1" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Variable Name</span>
+                  <input type="text" class="form-control" placeholder="Variable Name" aria-describedby="basic-addon1" id="variable1" value="doorBellPin">
+                </div>
+                <button class="btn btn-default" onClick="getSparkVariable(1);">Get</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkVariables2" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Variable Name</span>
+                  <input type="text" class="form-control" placeholder="Variable Name" aria-describedby="basic-addon1" id="variable2">
+                </div>
+                <button class="btn btn-default" onClick="getSparkVariable(2);">Get</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkVariables3" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Variable Name</span>
+                  <input type="text" class="form-control" placeholder="Variable Name" aria-describedby="basic-addon1" id="variable3">
+                </div>
+                <button class="btn btn-default" onClick="getSparkVariable(3);">Get</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkVariables4" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Variable Name</span>
+                  <input type="text" class="form-control" placeholder="Variable Name" aria-describedby="basic-addon1" id="variable4">
+                </div>
+                <button class="btn btn-default" onClick="getSparkVariable(4);">Get</button>
+            </form>
+            <form class="form-inline" role="form" id="SparkVariables5" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Variable Name</span>
+                  <input type="text" class="form-control" placeholder="Variable Name" aria-describedby="basic-addon1" id="variable5">
+                </div>
+                <button class="btn btn-default" onClick="getSparkVariable(5);">Get</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+        	<p>Variable return value
+        	<pre id="SparkCoreVariableMessageWindow">
+                
+            </pre>
+            <p>Timestamp
+        	<pre id="SparkCoreVariableTimeWindow">
+                
+            </pre>
+            <button class="btn btn-default" onClick="updateVariableResult('');">Clear</button>
+        </div>
+      </div>
+        
+      </div>
+    </div>
+    
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Subscribe to Spark Published Events</h3>
+      </div>
+      <div class="panel-body">
+      	<div class="row">
+        <div class="col-md-6">
+            <form class="form-inline" role="form" id="SparkSubscriptions1" onClick="return false;">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Publised Event Name</span>
+                  <input type="text" class="form-control" placeholder="Publish Name" aria-describedby="basic-addon1" id="subscribe1" value="doorBellRung">
+                </div>
+                <button class="btn btn-default" onClick="subscribeSparkEvent(1);">Subscribe</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+        	<p>Subscribed Event return value
+        	<pre id="SparkCoreSubscribeMessageWindow">
+                
+            </pre>
+            <p>Timestamp
+        	<pre id="SparkCoreSubscribeTimeWindow">
+                
+            </pre>
+            <button class="btn btn-default" onClick="updateSubscribeResult('');">Clear</button>
+        </div>
+      </div>
+        
       </div>
     </div>
     
