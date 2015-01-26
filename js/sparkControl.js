@@ -115,11 +115,7 @@ sparkControl.prototype.logTestMessage = function(message) {
 
 function sparkControlTestMessage (message) {
 	console.log(message);
-	// messageWindow = document.getElementById("SparkCoreMessageWindow");
-	if (messageWindow) {
-	  // Message window exists, output message
-      // document.getElementById("SparkCoreMessageWindow").value = message;
-	}
+	
 }
 
 
