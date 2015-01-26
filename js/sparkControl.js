@@ -21,7 +21,7 @@ sparkControl.prototype.callFunction = function(functionName, functionArgs, callb
 	// https://api.spark.io/v1/devices/54ff6e066667515125491467/ringDoorBell
 
 	if ($.isFunction(callbackFunction) == 0) {
-		logTestMessage("callFunction invalid function");
+		this.logTestMessage("callFunction invalid function");
 		callbackFunction = function() {}
 	}
 
