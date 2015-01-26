@@ -115,8 +115,16 @@ sparkControl.prototype.logTestMessage = function(message) {
 
 function sparkControlTestMessage (message) {
 	console.log(message);
-	
+
+	//messageWindow = $("#SparkCoreMessageWindow");
+	if (messageWindow.length) {
+		// Message window exists, output message
+		//messageWindow.text(message);
+	}
+
 }
+
+
 
 
 /* Doesn't work. Possibly need to call an existing function instead of creating a new one on the fly like this.
