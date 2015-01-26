@@ -21,7 +21,7 @@ sparkControl.prototype.callFunction = function(functionName, functionArgs, callb
 	// https://api.spark.io/v1/devices/54ff6e066667515125491467/ringDoorBell
 
 	if ($.isFunction(callbackFunction) == 0) {
-		this.logTestMessage("callFunction - no valid function passed");
+		//logTestMessage("callFunction invalid function");
 		callbackFunction = function() {}
 	}
 
@@ -37,7 +37,7 @@ sparkControl.prototype.callFunction = function(functionName, functionArgs, callb
 			success: callbackFunction,
 			dataType: "json",
 			dataFilter: function(data, type) {
-				sparkControlTestMessage(data);
+				//sparkControlTestMessage(data);
 				return $.parseJSON(data).return_value;
 			}
 		});
@@ -76,7 +76,7 @@ sparkControl.prototype.getVariable = function(variableName, callbackFunction) {
 			success: callbackFunction,
 			dataType: "json",
 			dataFilter: function(data, type) {
-				sparkControlTestMessage(data);
+				//sparkControlTestMessage(data);
 				return $.parseJSON(data).result;
 			}
 		});
@@ -98,7 +98,7 @@ sparkControl.prototype.getVariable = function(variableName, callbackFunction) {
 sparkControl.prototype.subscribe = function(sparkEventName, callbackFunction) {
 	eventSource.addEventListener(sparkEventName, function(eventResponse) {
 		var parsedData = JSON.parse(eventResponse.data).data;
-		this.logTestMessage(eventResponse.data);
+		//this.logTestMessage(eventResponse.data);
 		//console.log(parsedData);
 		if ($.isFunction(callbackFunction) == 1) {
 			callbackFunction(parsedData);
