@@ -10,13 +10,13 @@ You can include the library in your own pages directly. For example, put this in
 <script type="text/javascript">
   var sparkCore = new sparkControl("<< Your CORE ID Here >>", "<< Your access_token here >>");
 </script>
-'''
+```
 
 Now you can call Core functions directly with one line! eg:
 
 ```html
 <button onclick="sparkCore.callFunction('ringDoorBell', 'Short');">
-'''
+```
 
 Library also includes callback functions, reading variables, and subscribing to published events from the core.
 
