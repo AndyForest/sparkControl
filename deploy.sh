@@ -1,5 +1,5 @@
 #! /bin/bash
 git add .
-git commit -m 'resolving cross domain error'
+git commit -m 'updates'
 git push -u origin master
 
