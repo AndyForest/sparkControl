@@ -20,4 +20,8 @@ Now you can call Core functions directly with one line! eg:
 
 Library also includes callback functions, reading variables, and subscribing to published events from the core.
 
-Tutorials and more examples coming soon!
+Tutorials and more examples:
+http://www.slideshare.net/forestlife/internet-of-things-teaching-kit
+
+A huge thank you to the Canadian Internet Registration Authority's Community Investment Program for helping to fund this work!
+http://www.cira.ca/about-cira/community-investment-program/
