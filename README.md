@@ -1,6 +1,6 @@
 # sparkControl
 Javascript library for controlling a Spark Core or Spark Photon Arduino compatible Internet of Things cloud device.
-Author: Andy Forest <andy@makerkids.ca>
+Author: Andy Forest <andy@steamlabs.ca>
 
 You can include the library in your own pages directly. For example, put this in the HEAD:
 
