@@ -23,5 +23,8 @@ Library also includes callback functions, reading variables, and subscribing to 
 Tutorials and more examples:
 http://steamlabs.ca/wp-content/uploads/2015/04/Internet-of-Things-STEAMLabs-CIRA.docx
 
+Also included is a troubleshooting control panel that you can use to call your remote functions, read variables and subscribe to published events:
+https://andyforest.github.io/sparkControl/examples/Spark_Control_Panel.html
+
 A huge thank you to the Canadian Internet Registration Authority's Community Investment Program for helping to fund this work!
 http://www.cira.ca/about-cira/community-investment-program/
