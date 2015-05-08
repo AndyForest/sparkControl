@@ -18,6 +18,8 @@ Now you can call Core functions directly with one line! eg:
 <button onclick="sparkCore.callFunction('ringDoorBell', 'Short');">
 ```
 
+This example calls the Spark function ringDoorBell, and passes it the text string "Short" as a parameter.
+
 Library also includes callback functions, reading variables, and subscribing to published events from the core.
 
 Tutorials and more examples:
