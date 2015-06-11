@@ -15,7 +15,7 @@ You can include the library in your own pages directly. For example, put this in
 Now you can call Core functions directly with one line! eg:
 
 ```html
-<button onclick="sparkCore.callFunction('ringDoorBell', 'Short');">
+<button onclick="sparkCore.callFunction('ringDoorBell', 'Short');">Ring Door Bell</button>
 ```
 
 This example calls the Spark function ringDoorBell, and passes it the text string "Short" as a parameter.
