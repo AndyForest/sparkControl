@@ -23,7 +23,7 @@ This example calls the Spark function ringDoorBell, and passes it the text strin
 Library also includes callback functions, reading variables, and subscribing to published events from the core.
 
 Tutorials and more examples:
-http://steamlabs.ca/wp-content/uploads/2015/04/Internet-of-Things-STEAMLabs-CIRA.docx
+http://steamlabs.ca/wp-content/uploads/2016/04/Internet-of-Things-STEAMLabs-CIRA.docx
 
 Also included is a troubleshooting control panel that you can use to call your remote functions, read variables and subscribe to published events:
 https://andyforest.github.io/sparkControl/examples/Spark_Control_Panel.html
